@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('event_type'); // birthday, marriage, etc.
+            $table->date('event_date');
+            $table->text('services'); // JSON or string of services (cook, items)
+            $table->decimal('total_cost', 10, 2);
             $table->timestamps();
         });
     }
