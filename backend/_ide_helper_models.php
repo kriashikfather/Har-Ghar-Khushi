@@ -17,22 +17,22 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $user_id
- * @property string $event_type
- * @property string $event_date
- * @property string $services
- * @property string $total_cost
+ * @property string $service_name
+ * @property string $booking_date
+ * @property string|null $details
+ * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereBookingDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEventDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereEventType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereDetails($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereServices($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereTotalCost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereServiceName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Booking whereUserId($value)
  */
@@ -69,6 +69,7 @@ namespace App\Models{
  * @property int $product_id
  * @property int $quantity
  * @property string $total_price
+ * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Product $product
@@ -80,6 +81,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereTotalPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUserId($value)
@@ -121,6 +123,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
+ * @property string $role
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
@@ -140,8 +143,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  */
-	class User extends \Eloquent {}
+	class User extends \Eloquent implements \Tymon\JWTAuth\Contracts\JWTSubject {}
 }
 

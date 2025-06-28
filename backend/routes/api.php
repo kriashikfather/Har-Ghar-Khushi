@@ -1,15 +1,22 @@
 <?php
 
-use App\Http\Controllers\API\ProductController;
-use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Routing\Route;
+use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\API\ProductController;
 
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
+Route::group([
 
-Route::middleware('auth:api')->group(function () {
-    Route::get('me', [AuthController::class, 'me']);
+    'middleware' => 'api',
+    // 'prefix' => 'auth'
+
+], function ($router) {
+
+    Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('me', [AuthController::class, 'me']);
+
 });
 
 Route::middleware(['auth:api'])->group(function () {
