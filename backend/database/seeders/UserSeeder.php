@@ -20,12 +20,14 @@ class UserSeeder extends Seeder
                 'password'   => Hash::make('admin123'),
                 'role'       => 'admin',
                 'created_at' => Carbon::now()->subDays(2),
+                'updated_at' => Carbon::now()->subDay(),
             ],
             [
                 'name'       => 'Normal User',
                 'email'      => 'user@ghar.com',
                 'password'   => Hash::make('user123'),
                 'role'       => 'user',
+                'created_at' => Carbon::now()->subDays(2),
                 'updated_at' => Carbon::now()->subDay(),
             ],
         ]);
