@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('event_type'); // birthday, marriage, etc.
-            $table->date('event_date');
-            $table->text('services'); // JSON or string of services (cook, items)
-            $table->decimal('total_cost', 10, 2);
+            $table->string('service_name'); // e.g. marriage, birthday
+            $table->date('booking_date');
+            $table->text('details')->nullable();
+            $table->string('status')->default('pending'); // pending, confirmed
             $table->timestamps();
         });
     }
