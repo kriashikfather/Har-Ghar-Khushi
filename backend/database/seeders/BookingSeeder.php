@@ -1,10 +1,9 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\Booking;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class BookingSeeder extends Seeder
 {
@@ -14,11 +13,13 @@ class BookingSeeder extends Seeder
     public function run(): void
     {
         Booking::create([
-            'user_id' => 1,
+            'user_id'      => 1,
             'service_name' => 'Birthday Party',
             'booking_date' => now()->addDays(7),
-            'details' => 'Need full catering + decoration',
-            'status' => 'pending'
+            'details'      => 'Need full catering + decoration',
+            'status'       => 'pending',
+            'created_at'   => Carbon::now()->subDays(2),
+            'updated_at'   => Carbon::now()->subDay(),
         ]);
     }
 }
