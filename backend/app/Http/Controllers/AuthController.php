@@ -14,7 +14,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        // $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     /**
@@ -24,6 +24,7 @@ class AuthController extends Controller
      */
     public function login()
     {
+        return response()->json(['message' => 'Login endpoint is not implemented yet'], 501);
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {

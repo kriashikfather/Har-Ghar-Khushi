@@ -1,22 +1,21 @@
 <?php
 
-use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\API\ProductController;
 
-Route::group([
+Route::get('/', function () {
+    return response()->json(['message' => 'Hello world!']);
+});
 
-    'middleware' => 'api',
-    'prefix' => 'auth'
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
-], function ($router) {
-
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-
+Route::middleware('jwt')->group(function () {
+    Route::get('/logout', [AuthController::class, 'logout']);
+    Route::put('/refresh', [AuthController::class, 'refresh']);
+    Route::post('/me', [AuthController::class, 'me']);
 });
 
 Route::middleware(['auth:api'])->group(function () {
