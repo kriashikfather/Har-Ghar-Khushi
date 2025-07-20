@@ -19,5 +19,12 @@ class ProductSeeder extends Seeder
             'price' => 70,
             'image' => 'milk.jpg'
         ]);
+        Product::create([
+            'category_id' => 1,
+            'name' => 'Fresh Ghee',
+            'description' => '1 litre fresh cow Ghee',
+            'price' => 70,
+            'image' => 'ghee.jpg'
+        ]);
     }
 }

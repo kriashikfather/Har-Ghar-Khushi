@@ -22,8 +22,9 @@ class DatabaseSeeder extends Seeder
             OrderSeeder::class,
             PaymentSeeder::class,
             AddressSeeder::class,
-            BookingSeeder::class,
             ServiceSeeder::class,
+            BookingSeeder::class,
+
         ]);
     }
 }
