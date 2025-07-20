@@ -9,35 +9,28 @@ use App\Http\Controllers\Controller;
 
 class BookingController extends Controller
 {
-    public function index()
-    {
-        return response()->json(Booking::where('user_id', JWTAuth::user()->id)->get());
+    public function index() {
+        return Booking::with(['user', 'service'])->get();
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'service_name' => 'required|string|max:255',
+    public function store(Request $request) {
+        $data = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'service_id' => 'required|exists:services,id',
             'booking_date' => 'required|date',
-            'details' => 'nullable|string'
         ]);
 
-        $booking = Booking::create([
-            'user_id' => JWTAuth::user()->id,
-            'service_name' => $request->service_name,
-            'booking_date' => $request->booking_date,
-            'details' => $request->details,
-        ]);
-
-        return response()->json(['message' => 'Booking placed!', 'booking' => $booking]);
+        return Booking::create($data);
     }
 
-    public function show(Booking $booking)
-    {
-        if ($booking->user_id !== JWTAuth::user()->id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+    public function updateStatus(Request $request, Booking $booking) {
+        $request->validate(['status' => 'required']);
+        $booking->update(['status' => $request->status]);
+        return $booking;
+    }
 
-        return response()->json($booking);
+    public function show(Booking $booking) {
+        return $booking->load(['user', 'service']);
     }
 }
+

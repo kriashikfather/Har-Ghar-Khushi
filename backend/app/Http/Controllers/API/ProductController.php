@@ -1,39 +1,39 @@
 <?php
+
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
 
-class ProductController extends Controller
+ class ProductController extends Controller
 {
-    // ✅ All products (with category)
-    public function index()
-    {
-        return response()->json(Product::with('category')->get());
+    public function index() {
+        return Product::with('category')->get();
     }
 
-    // ✅ Add new product (admin only)
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name'        => 'required|string',
-            'price'       => 'required|numeric',
-            'unit'        => 'required|string',
+    public function store(Request $request) {
+        $data = $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'image'       => 'nullable|string',
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'description' => 'nullable|string',
+            'image' => 'nullable|string'
         ]);
+        return Product::create($data);
+    }
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+    public function show(Product $product) {
+        return $product->load('category');
+    }
 
-        $product = Product::create($validator->validated());
+    public function update(Request $request, Product $product) {
+        $product->update($request->all());
+        return $product;
+    }
 
-        return response()->json([
-            'message' => 'Product created successfully!',
-            'product' => $product,
-        ], 201);
+    public function destroy(Product $product) {
+        $product->delete();
+        return response()->json(['message' => 'Deleted']);
     }
 }

@@ -3,32 +3,49 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Order;
-use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
-     public function index()
-    {
-        return response()->json(Order::where('user_id', JWTAuth::user()->id)->get());
+    public function index() {
+        return Order::with(['items.product', 'user'])->get();
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'quantity'   => 'required|integer|min:1',
+    public function store(Request $request) {
+        $data = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'items' => 'required|array',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.price' => 'required|numeric'
         ]);
+
+        $total = collect($data['items'])->sum(function ($item) {
+            return $item['quantity'] * $item['price'];
+        });
 
         $order = Order::create([
-            'user_id'     => JWTAuth::user()->id,
-            'product_id'  => $request->product_id,
-            'quantity'    => $request->quantity,
-            'total_price' => 100 * $request->quantity, // Static for example
-            'status'      => 'pending'
+            'user_id' => JWTAuth::user()->id,
+            'total_price' => $total,
         ]);
 
-        return response()->json(['message' => 'Order placed successfully', 'order' => $order], 201);
+        foreach ($data['items'] as $item) {
+            $order->items()->create($item);
+        }
+
+        return response()->json($order->load('items.product'), 201);
+    }
+
+    public function updateStatus(Request $request, Order $order) {
+        $request->validate(['status' => 'required']);
+        $order->update(['status' => $request->status]);
+        return $order;
+    }
+
+    public function show(Order $order) {
+        return $order->load(['items.product', 'user']);
     }
 }
+

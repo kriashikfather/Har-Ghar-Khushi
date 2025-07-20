@@ -14,14 +14,15 @@ class OrderSeeder extends Seeder
      */
     public function run(): void
     {
-        Order::create([
+         $order = Order::create([
             'user_id' => 1,
-            'product_id' => 1,
-            'quantity' => 2,
-            'total_price' => 200.00,
+            'total_price' => 210.00,
             'status' => 'pending',
-            'created_at'  => Carbon::now()->subDays(2),
-            'updated_at'  => Carbon::now()->subDay()
+        ]);
+
+        $order->items()->createMany([
+            ['product_id' => 1, 'quantity' => 2, 'price' => 70],
+            ['product_id' => 2, 'quantity' => 1, 'price' => 70],
         ]);
     }
 }
