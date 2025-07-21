@@ -20,9 +20,9 @@ class OrderSeeder extends Seeder
             'status' => 'pending',
         ]);
 
-        $order->items()->createMany([
-            ['product_id' => 1, 'quantity' => 2, 'price' => 70],
-            ['product_id' => 2, 'quantity' => 1, 'price' => 70],
-        ]);
+        // $order->items()->createMany([
+        //     ['product_id' => 1, 'quantity' => 2, 'price' => 70],
+        //     ['product_id' => 2, 'quantity' => 1, 'price' => 70],
+        // ]);
     }
 }
