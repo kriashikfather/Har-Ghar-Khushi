@@ -2,6 +2,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Cart;
 use Illuminate\Database\Seeder;
 
 // use Database\Seeders\UserSeeder;
@@ -25,7 +27,8 @@ class DatabaseSeeder extends Seeder
             AddressSeeder::class,
             ServiceSeeder::class,
             BookingSeeder::class,
-
+            CartsSeeder::class,
+            CartItemsSeeder::class,
         ]);
     }
 }
